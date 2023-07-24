@@ -25,4 +25,3 @@ SELECT
 FROM external_categories__null_handle AS dim_category
 LEFT JOIN external_categories__null_handle AS dim_parent_category
   ON dim_category.parent_category_id = dim_parent_category.category_id
--- ORDER BY category_id 

@@ -18,8 +18,22 @@ select
 from color__source__rename_column
 )
 
-
+, color__add_undifined_record AS(
 select
-  COALESCE(color_id, 0) AS color_id
-  ,COALESCE(color_name , "Undefine") AS color_name
+  color_id
+  , color_name
 from color__cast_type
+UNION ALL
+SELECT
+    0 AS color_id
+    , 'Undefine' AS color_name
+, UNION ALL
+SELECT
+    -1 AS color_id
+    , 'Invalid' AS color_name
+)
+
+SELECT
+    color_id
+    , color_name
+FROM color__add_undifined_record

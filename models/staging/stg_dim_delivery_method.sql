@@ -11,7 +11,22 @@ select
 from delivery_method__source
 )
 
+, delivery_method__add_undefined_record AS(
 select
-  COALESCE (delivery_method_id, 0) AS delivery_method_id
-  ,COALESCE(delivery_method_name , "Undefine") AS delivery_method_name
+  delivery_method_id
+  , delivery_method_name
 from delivery_method__cast_type
+UNION ALL
+SELECT
+    0 AS delivery_method_id
+    , 'Undefined' AS delivery_method_name
+, UNION ALL
+SELECT
+    -1 AS delivery_method_id
+    , 'Invalid' AS delivery_method_name
+)
+
+SELECT
+    delivery_method_id
+    , delivery_method_name
+FROM delivery_method__add_undefined_record

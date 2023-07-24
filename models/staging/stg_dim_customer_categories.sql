@@ -18,8 +18,22 @@ select
 from customer_categories__rename_column
 )
 
-
+, customer_categories__add_undefined_record as (
 select
-  COALESCE( customer_category_id , 0) AS customer_category_id
-  ,COALESCE(customer_category_name , "Undefine") AS customer_category_name
+  customer_category_id
+  , customer_category_name
 from customer_categories__cast_type
+UNION ALL
+SELECT
+    0 AS customer_category_id
+    , 'Undefine' AS customer_category_name
+, UNION ALL
+SELECT
+    -1 AS customer_category_id
+    , 'Invalid' AS customer_category_name
+)
+
+SELECT
+    customer_category_id
+    , customer_category_name
+FROM customer_categories__add_undefined_record

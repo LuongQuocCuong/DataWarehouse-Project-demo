@@ -13,9 +13,30 @@ WITH customer_relationship__source AS (
   FROM customer_relationship__source
 )
 
+, customer_relationship__add_undefined_record AS (
 SELECT 
-    COALESCE(customer_id , 0) AS customer_id
-    , COALESCE(membership , "Undefine") AS membership
+    customer_id
+    , membership
     , begin_effective_date
     , end_effective_date
 FROM customer_relationship__cast_data
+UNION ALL
+SELECT 
+    0 AS customer_id
+    ,'Undefine' AS membership
+    , NULL AS begin_effective_date
+    , NULL AS end_effective_date
+, UNION ALL
+SELECT 
+    -1 AS customer_id
+    ,'InvaLid' AS membership
+    , NULL AS begin_effective_date
+    , NULL AS end_effective_date
+)
+
+SELECT
+    customer_id
+    , membership
+    , begin_effective_date
+    , end_effective_date
+FROM customer_relationship__add_undefined_record

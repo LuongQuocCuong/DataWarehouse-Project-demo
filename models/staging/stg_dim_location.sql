@@ -13,7 +13,7 @@ LEFT JOIN {{ref('stg_dim_location_country')}} as country
   ON province.country_id = country.country_id
 )
 
-, Location__add_invalid_column AS(
+, Location__add_undefined_record AS(
 SELECT
      city_id
     , city_name
@@ -47,4 +47,4 @@ SELECT
     , province_name
     , country_id
     , country_name
-FROM Location__add_invalid_column
+FROM Location__add_undefined_record

@@ -18,8 +18,22 @@ select
 from buying_group__source__rename_column
 )
 
-
+, buying_group__add_undefined_record AS(
 select
-  COALESCE(buying_group_id , 0) AS buying_group_id
-  , COALESCE(buying_group_name, "Undefine") AS buying_group_name
+    buying_group_id
+  , buying_group_name
 from buying_group__cast_type
+UNION ALL
+SELECT
+    0 AS buying_group_id
+    ,'Undefine' AS buying_group_name
+, UNION ALL
+SELECT
+    -1 AS buying_group_id
+    ,'Invalid' AS buying_group_name
+)
+
+SELECT
+    buying_group_id
+    , buying_group_name
+FROM buying_group__add_undefined_record
