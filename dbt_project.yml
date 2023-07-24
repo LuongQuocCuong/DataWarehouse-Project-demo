@@ -37,4 +37,5 @@ models:
     analytic:
       materialized: table
     staging:
-      materialized: view
+      +materialized: view
+      +schema: staging
