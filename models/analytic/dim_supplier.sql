@@ -87,6 +87,7 @@ SELECT
    supplier_id
   , supplier_name
   , supplier_category_id
+  , supplier_category_name
   , supplier_city_id
   , supplier_city_name
   , supplier_province_id

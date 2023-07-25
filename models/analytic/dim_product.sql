@@ -132,18 +132,6 @@ SELECT
   , dim_product.quantity_per_outer 
   , dim_product.is_chiller_stock
   , COALESCE (external_product.category_id , -1) AS category_id
-  , COALESCE(dim_categories.category_name, 'Invalid') AS category_name
-  , COALESCE(dim_categories.parent_category_id, -1) AS parent_category_id
-  , COALESCE(dim_categories.parent_category_name, 'Invalid') AS parent_category_name
-  , COALESCE(dim_categories.category_level, -1) AS category_level
-  , dim_categories.category_level_1_id
-  , dim_categories.category_level_1_name
-  , dim_categories.category_level_2_id
-  , dim_categories.category_level_2_name
-  , dim_categories.category_level_3_id
-  , dim_categories.category_level_3_name
-  , dim_categories.category_level_4_id
-  , dim_categories.category_level_4_name
   , dim_product.tax_rate 
   , dim_product.unit_price 
   , dim_product.recommended_retail_price 
@@ -157,12 +145,12 @@ SELECT
   , dim_product.supplier_id
   , dim_supplier.supplier_category_id
   , COALESCE ( dim_supplier.supplier_category_name , 'Invalid') AS supplier_category_name
-  , dim_supplier.supplier_delivery_city_id 
-  , COALESCE ( dim_supplier.supplier_delivery_city_name , 'Invalid') AS supplier_delivery_city_name
-  , dim_supplier.supplier_delivery_province_id 
-  , COALESCE ( dim_supplier.supplier_delivery_province_name ,'Invalid') AS supplier_delivery_province_name
-  , dim_supplier.supplier_delivery_country_id 
-  , COALESCE ( dim_supplier.supplier_delivery_country_name , 'Invalid') AS supplier_delivery_country_name
+  , dim_supplier.supplier_city_id 
+  , COALESCE ( dim_supplier.supplier_city_name , 'Invalid') AS supplier_city_name
+  , dim_supplier.supplier_province_id 
+  , COALESCE ( dim_supplier.supplier_province_name ,'Invalid') AS supplier_province_name
+  , dim_supplier.supplier_country_id 
+  , COALESCE ( dim_supplier.supplier_country_name , 'Invalid') AS supplier_country_name
 FROM dim_product__add_undefined_record AS dim_product
 LEFT JOIN {{ref('dim_supplier')}} AS dim_supplier
   ON dim_product.supplier_id = dim_supplier.supplier_id
@@ -174,5 +162,3 @@ LEFT JOIN {{ref('stg_dim_package_type')}} AS stg_unit_package_type
   ON stg_unit_package_type.package_type_id = dim_product.unit_package_id
 LEFT JOIN {{ref('stg_dim_external_product')}} AS external_product
   USING (product_id)
-LEFT JOIN {{ref('dim_category')}} AS dim_categories
-  USING (category_id)
