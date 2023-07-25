@@ -1,6 +1,6 @@
 WITH fact_sale_target__source AS (
 SELECT *
-FROM {{ref('sale_person_target')}}
+FROM {{ref('dim_sale_person_target')}}
 )
 
 , fact_sale_target__rename AS (

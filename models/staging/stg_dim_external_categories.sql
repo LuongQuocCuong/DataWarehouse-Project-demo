@@ -4,7 +4,7 @@ SELECT
   , CAST (category_name AS STRING) AS category_name
   , CAST (parent_category_id AS INTEGER) AS parent_category_id
   , CAST (category_level AS INTEGER) AS category_level
-FROM {{ref("external_categories")}}
+FROM {{ref("dim_external_categories")}}
 )
 
 , external_categories__null_handle AS (
