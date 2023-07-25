@@ -63,6 +63,7 @@ LEFT JOIN dim_category AS level_2
 WHERE level_4.category_level = 4
 )
 
+, dim_category__map_bridge AS (
 SELECT 
    category_level_1_id AS parent_category_id
   , category_level_1_name AS parent_category_name
@@ -94,3 +95,32 @@ SELECT
 FROM dim_category_add_level 
 WHERE category_level_4_id <> 0
 ORDER BY 1
+)
+
+, dim_category__add_undefined_record AS (
+    SELECT
+        parent_category_id
+        , parent_category_name
+        , child_category_id
+        , child_category_name
+    FROM dim_category__map_bridge
+UNION ALL
+SELECT
+    0 AS parent_category_id
+    , "Undefined" AS parent_category_name
+    , 0 AS child_category_id
+    , "Undefined" AS child_category_name
+, UNION ALL
+SELECT
+    -1 AS parent_category_id
+    , "Invalid" AS parent_category_name
+    , -1 AS child_category_id
+    , "Invalid" AS child_category_name
+)
+
+SELECT
+    parent_category_id
+    , parent_category_name
+    , child_category_id
+    , child_category_name
+FROM dim_category__add_undefined_record
