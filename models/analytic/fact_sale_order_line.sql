@@ -51,6 +51,7 @@ SELECT
 , COALESCE (fact_line.product_id,0) AS product_id
 , COALESCE (fact_line.package_type_id,0) AS package_type_id
 , COALESCE (stg_sale_order.customer_id , 0) AS customer_id
+, customer_relationship.customer_key
 , COALESCE (stg_sale_order.picked_by_person_id , 0) AS picked_by_person_id
 , COALESCE (stg_sale_order.sales_person_id , 0) AS sales_person_id
 , COALESCE (stg_sale_order.contact_person_id ,0) AS contact_person_id
@@ -69,3 +70,7 @@ SELECT
 FROM fact_sale__undefined_handle AS fact_line
 LEFT JOIN {{ref('stg_fact_sale_order')}} AS stg_sale_order
   ON fact_line.order_id = stg_sale_order.order_id
+LEFT JOIN {{ref('stg_dim_customer_relationship')}} AS customer_relationship
+    ON stg_sale_order.customer_id = customer_relationship.customer_id
+    AND stg_sale_order.order_date BETWEEN customer_relationship.begin_effective_date
+                                AND customer_relationship.end_effective_date
