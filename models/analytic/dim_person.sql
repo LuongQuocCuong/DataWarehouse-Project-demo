@@ -39,10 +39,30 @@ SELECT
 FROM dim_person__cast_data
 )
 
+, dim_person__add_undefined_record AS (
+SELECT
+    person_id
+    , full_name
+    , is_employee
+    , is_sales_person
+FROM dim_person__change_boolean
+UNION ALL
+SELECT
+    0 AS person_id
+    , 'Undefined' AS full_name
+    , 'Invalid' AS is_employee
+    , 'Invalid' AS is_sales_person
+, UNION ALL
+SELECT
+    -1 AS person_id
+    , 'Invalid' AS full_name
+    , 'Invalid' AS is_employee
+    , 'Invalid' AS is_sales_person
+)
 
 SELECT
-COALESCE(person_id , 0) AS person_id
-, COALESCE ( full_name , 'Invalid') AS full_name
-, COALESCE ( is_employee , 'Invalid') AS is_employee
-, COALESCE ( is_sales_person , 'Invalid') AS is_sales_person
-FROM dim_person__change_boolean
+    person_id
+    , full_name
+    , is_employee
+    , is_sales_person
+FROM dim_person__add_undefined_record
