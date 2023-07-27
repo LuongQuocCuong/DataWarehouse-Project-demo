@@ -41,7 +41,18 @@ SELECT
 FROM rfm__percent_rank
 )
 
+, rfm__add_gross_amount_column AS (
+    SELECT 
+        customer_id
+        , SUM(gross_amount) AS total_gross_amount
+    FROM {{ref("fact_sale_order_line")}}
+    GROUP BY 1
+) 
+
 SELECT
   *
   , CONCAT(recency, frequency, monetary) AS rfm_score
+  , rfm__add_gross_amount_column.total_gross_amount
 FROM rfm__percent_add_segment
+LEFT JOIN rfm__add_gross_amount_column
+    USING(customer_id)
