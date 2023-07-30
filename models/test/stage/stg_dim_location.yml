@@ -1,0 +1,30 @@
+version: 2
+
+models:                  
+  - name: stg_dim_location        
+    columns:
+      - name: city_id
+        tests:
+          - unique
+          - not_null
+      - name: city_id
+        tests:
+          - relationships:
+              to: ref('stg_dim_location_city')
+              field: city_id
+              config:
+                where: "city_id not in (0, -1)"
+      - name: province_id
+        tests:
+          - relationships:
+              to: ref('stg_dim_location_province')
+              field: province_id
+              config:
+                where: "province_id not in (0, -1)"
+      - name: country_id
+        tests:
+          - relationships:
+              to: ref('stg_dim_location_country')
+              field: country_id
+              config:
+                where: "country_id not in (0, -1)"
