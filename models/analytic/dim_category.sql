@@ -119,8 +119,11 @@ SELECT
 )
 
 SELECT
-    parent_category_id
-    , parent_category_name
-    , child_category_id
-    , child_category_name
-FROM dim_category__add_undefined_record
+    dim.parent_category_id
+    , dim.parent_category_name
+    , dim.child_category_id
+    , dim.child_category_name
+    , COALESCE(fact.category_level,0) AS category_level
+FROM dim_category__add_undefined_record AS dim
+LEFT JOIN {{ref("stg_dim_external_categories")}} AS fact
+ON dim.parent_category_id = fact.category_id
