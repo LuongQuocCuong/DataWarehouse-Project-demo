@@ -4,6 +4,7 @@ SELECT
     , DATE_DIFF(CURRENT_DATE(), MAX(order_date), DAY) AS  recency
     , COUNT(order_id) AS frequency
     , SUM(gross_amount) AS monetary
+    , SUM(gross_amount) AS total_gross_amount
 FROM {{ref("fact_sale_order_line")}}
 GROUP BY 1
 )
@@ -14,6 +15,7 @@ GROUP BY 1
     , PERCENT_RANK() OVER (ORDER BY recency DESC) AS recency
     , PERCENT_RANK() OVER (ORDER BY frequency DESC) AS frequency
     , PERCENT_RANK() OVER (ORDER BY monetary DESC) AS monetary
+    , total_gross_amount
   FROM rfm__source
 )
 
@@ -38,21 +40,12 @@ SELECT
     WHEN monetary BETWEEN 0.4 AND 0.6 THEN '3'
     WHEN monetary BETWEEN 0.6 AND 0.8 THEN '4'
     ELSE '5' END AS monetary
+    , total_gross_amount
 FROM rfm__percent_rank
 )
 
-, rfm__add_gross_amount_column AS (
-    SELECT 
-        customer_id
-        , SUM(gross_amount) AS total_gross_amount
-    FROM {{ref("fact_sale_order_line")}}
-    GROUP BY 1
-) 
 
 SELECT
   *
   , CONCAT(recency, frequency, monetary) AS rfm_score
-  , rfm__add_gross_amount_column.total_gross_amount
 FROM rfm__percent_add_segment
-LEFT JOIN rfm__add_gross_amount_column
-    USING(customer_id)
