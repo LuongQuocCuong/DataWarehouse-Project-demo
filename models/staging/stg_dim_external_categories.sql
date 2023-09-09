@@ -1,27 +1,23 @@
-WITH external_categories__cast_data AS (
+WITH RECURSIVE external_categories__add_level AS (
 SELECT
-  CAST(category_id AS INTEGER) AS category_id
-  , CAST (category_name AS STRING) AS category_name
-  , CAST (parent_category_id AS INTEGER) AS parent_category_id
-  , CAST (category_level AS INTEGER) AS category_level
+    category_id
+    , category_name
+    , parent_category_id
+    , 1 AS category_level
 FROM {{ref("dim_external_categories")}}
+WHERE parent_category_id = 0
+UNION ALL
+SELECT
+    child.category_id
+    , child.category_name
+    , child.parent_category_id
+    , parent.category_level + 1
+FROM external_categories__add_level AS parent
+INNER JOIN {{ref("dim_external_categories")}} AS child
+    ON child.parent_category_id = parent.category_id
 )
 
-, external_categories__null_handle AS (
 SELECT
-  COALESCE(category_id, 0) AS category_id
-  , COALESCE(category_name, 'Invalid') AS category_name
-  , COALESCE(parent_category_id, 0) AS parent_category_id
-  , COALESCE(category_level, 0) AS category_level
-FROM external_categories__cast_data
-)
-
-SELECT
-  dim_category.category_id
-  , dim_category.category_name
-  , dim_category.parent_category_id
-  , COALESCE(dim_parent_category.category_name , "Undefine") AS parent_category_name
-  , dim_category.category_level
-FROM external_categories__null_handle AS dim_category
-LEFT JOIN external_categories__null_handle AS dim_parent_category
-  ON dim_category.parent_category_id = dim_parent_category.category_id
+*
+FROM external_categories__add_level
+ORDER BY 1
