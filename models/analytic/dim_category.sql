@@ -1,6 +1,14 @@
 WITH dim_category AS(
-SELECT * 
-FROM {{ref('stg_dim_external_categories')}}
+SELECT 
+    child.category_id
+    , child.category_name
+    , child.parent_category_id
+    , parent.category_name AS parent_category_name
+    , child.category_level
+FROM {{ref('stg_dim_external_categories')}} AS child
+INNER JOIN {{ref('stg_dim_external_categories')}} AS parent
+    ON parent.category_id = child.parent_category_id
+
 )
 
 , dim_category_add_level AS (
@@ -127,3 +135,4 @@ SELECT
 FROM dim_category__add_undefined_record AS dim
 LEFT JOIN {{ref("stg_dim_external_categories")}} AS fact
 ON dim.parent_category_id = fact.category_id
+ORDER BY 1
