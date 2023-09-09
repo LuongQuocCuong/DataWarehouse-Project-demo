@@ -1,17 +1,17 @@
-category_id,category_name,parent_category_id,category_level
-1,Beverage,0,1
-2,Food,0,1
-3,Others,0,1
-4,Beer,1,2
-5,Juice,1,2
-6,Tea,1,2
-7,Coffee,1,2
-8,Biscuits,2,2
-9,Candy,2,2
-10,Chocolate,2,2
-11,Butter Biscuits,8,3
-12,Cheese Biscuits,8,3
-13,Cookies Biscuits,8,3
-14,Original Cookies,13,4
-15,Light Cookies,13,4
-16,Wheatmeal Cookies,13,4
+category_id,category_name,parent_category_id
+1,Beverage,0
+2,Food,0
+3,Others,0
+4,Beer,1
+5,Juice,1
+6,Tea,1
+7,Coffee,1
+8,Biscuits,2
+9,Candy,2
+10,Chocolate,2
+11,Butter Biscuits,8
+12,Cheese Biscuits,8
+13,Cookies Biscuits,8
+14,Original Cookies,13
+15,Light Cookies,13
+16,Wheatmeal Cookies,13
