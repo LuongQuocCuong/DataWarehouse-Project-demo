@@ -1,6 +1,14 @@
 WITH dim_category AS(
-SELECT * 
-FROM {{ref('stg_dim_external_categories')}}
+SELECT 
+    child.category_id
+    , child.category_name
+    , child.parent_category_id
+    , parent.category_name AS parent_category_name
+    , child.category_level
+FROM {{ref('stg_dim_external_categories')}} AS child
+INNER JOIN {{ref('stg_dim_external_categories')}} AS parent
+    ON parent.category_id = child.parent_category_id
+
 )
 
 
