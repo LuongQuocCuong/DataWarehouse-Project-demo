@@ -12,9 +12,9 @@ GROUP BY 1
 , rfm__percent_rank AS(
   SELECT
     customer_id
-    , PERCENT_RANK() OVER (ORDER BY recency DESC) AS recency
-    , PERCENT_RANK() OVER (ORDER BY frequency DESC) AS frequency
-    , PERCENT_RANK() OVER (ORDER BY monetary DESC) AS monetary
+    , PERCENT_RANK() OVER (ORDER BY recency ) AS recency
+    , PERCENT_RANK() OVER (ORDER BY frequency) AS frequency
+    , PERCENT_RANK() OVER (ORDER BY monetary ) AS monetary
     , total_gross_amount
   FROM rfm__source
 )
