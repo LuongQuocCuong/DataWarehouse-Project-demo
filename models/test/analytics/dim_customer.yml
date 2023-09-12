@@ -1,0 +1,86 @@
+version: 2
+
+models:                  
+  - name: dim_customer        
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+
+      - name: customer_name
+        tests:
+          - not_null       
+
+      - name: is_statement_sent
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Invalid','Undefined','Not Statement Sent','Statement Sent']
+
+      - name: is_on_credit_hold
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Invalid','Undefined','Not On Hold Credit','On Hold Credit']
+
+      - name: credit_limit
+        tests:
+          - not_null
+
+      - name: standard_discount_percentage
+        tests:
+          - not_null
+
+      - name: payment_days
+        tests:
+          - not_null
+
+      - name: customer_category_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_dim_customer_categories')
+              field: customer_category_id
+          - dbt_utils.accepted_range:
+              min_value: -1
+              max_value: 7
+
+      - name: delivery_city_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_dim_location')
+              field: city_id
+
+      - name: buying_group_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_dim_buying_group')
+              field: buying_group_id
+
+      - name: postal_city_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_location')
+              field: supplier_delivery_city_id
+
+      - name: primary_contact_person_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_person')
+              field: person_id
+
+      - name: alternate_contact_person_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_person')
+              field: person_id
+
+      - name: bill_to_customer_id
+        tests:
+          - not_null

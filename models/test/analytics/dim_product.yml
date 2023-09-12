@@ -1,0 +1,110 @@
+version: 2
+
+models:
+  - name: dim_product
+    tests:
+      - dbt_utils.equal_rowcount:
+          compare_model: "`vit-lam-data.wide_world_importers.warehouse__stock_items`"
+          config:
+            error_if: "<> 2"
+            warn_if: "<> 2"
+    columns:
+      - name: product_id
+        tests:
+          - not_null
+          - unique
+
+      - name: product_name
+        tests:
+          - not_null
+
+      - name: outer_package_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_dim_package_type')
+              field: package_type_id
+
+      - name: brand
+        tests:
+          - not_null
+
+      - name: supplier_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_supplier')
+              field: supplier_id
+
+      - name: is_chiller_stock
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                ["Chiller Stock", "Not Chiller Stock", "Undefined", "Invalid"]
+
+      - name: size
+        tests:
+          - not_null
+
+      - name: lead_time_days
+        tests:
+          - not_null
+
+      - name: quantity_per_outer
+        tests:
+          - not_null
+
+      - name: tax_rate
+        tests:
+          - not_null
+
+      - name: unit_price
+        tests:
+          - not_null
+
+      - name: recommended_retail_price
+        tests:
+          - not_null
+
+      - name: unit_package_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_dim_package_type')
+              field: package_type_id
+
+      - name: supplier_category_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_dim_supplier_category')
+              field: supplier_category_id
+
+      - name: color_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_color')
+              field: color_id
+
+      - name: supplier_province_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_dim_location')
+              field: province_id
+
+      - name: supplier_country_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_dim_location')
+              field: country_id
+
+      - name: supplier_city_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_dim_location')
+              field: city_id
