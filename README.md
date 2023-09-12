@@ -9,11 +9,11 @@ Hello! I'm Cuong, and this is my project to show my data warehouse skills.
 
 ## 📃 How to check this project
 - You can find data models at [models/analytics](https://github.com/LuongQuocCuong/project-demo/tree/main/models).
-- You can find data quality tests at models/analytics/testss.
+- You can find data quality tests at [models/analytics/test](https://github.com/LuongQuocCuong/project-demo/tree/main/models/test).
 
-### Resources:
-- Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
-- Check out [Discourse](https://discourse.getdbt.com/) for commonly asked questions and answers
-- Join the [dbt community](http://community.getbdt.com/) to learn from other analytics engineers
-- Find [dbt events](https://events.getdbt.com) near you
-- Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
+## Modules that I implemented
+- Sales Order
+
+## More info
+- Raw dataset: [Wide World Importers](https://learn.microsoft.com/en-us/sql/samples/wide-world-importers-what-is?view=sql-server-ver16)
+- Database: [BigQuery](https://console.cloud.google.com)
