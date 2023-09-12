@@ -64,7 +64,8 @@ SELECT
   ,  retention_rate__retention_customer_coulum.retention_month AS retention_month
   , DATE_DIFF(retention_rate__retention_customer_coulum.retention_month ,retention_rate__retention_customer_coulum.first_month_purchase, MONTH ) + 1 AS month_index
   , retention_rate__retention_customer_coulum.retention_customer
-  , retention_rate__retention_customer_coulum.retention_customer / retention_rate__new_customner_coulum.new_customer 
+  , retention_rate__new_customner_coulum.new_customer
+  , retention_rate__retention_customer_coulum.retention_customer / retention_rate__new_customner_coulum.new_customer AS percent_return
 FROM retention_rate__retention_customer_coulum
 LEFT JOIN retention_rate__new_customner_coulum 
 USING (first_month_purchase)
