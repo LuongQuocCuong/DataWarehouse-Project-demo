@@ -16,4 +16,5 @@ Hello! I'm Cuong, and this is my project to show my data warehouse skills.
 
 ## More info
 - Raw dataset: [Wide World Importers](https://learn.microsoft.com/en-us/sql/samples/wide-world-importers-what-is?view=sql-server-ver16)
-- Database: [BigQuery](https://console.cloud.google.com)
+- [Data Dictionary](https://dataedo.com/samples/html2/WideWorldImporters/#/doc/d5/wideworldimporters)
+- Database: BigQuery
