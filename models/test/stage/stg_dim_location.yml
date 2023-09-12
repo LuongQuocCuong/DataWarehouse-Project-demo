@@ -7,13 +7,14 @@ models:
         tests:
           - unique
           - not_null
-      - name: city_id
-        tests:
           - relationships:
               to: ref('stg_dim_location_city')
               field: city_id
               config:
                 where: "city_id not in (0, -1)"
+      - name: city_name
+        tests:
+          - not_null
       - name: province_id
         tests:
           - relationships:
@@ -21,6 +22,9 @@ models:
               field: province_id
               config:
                 where: "province_id not in (0, -1)"
+      - name: province_name
+        tests:
+          - not_null
       - name: country_id
         tests:
           - relationships:
@@ -28,3 +32,6 @@ models:
               field: country_id
               config:
                 where: "country_id not in (0, -1)"
+      - name: country_name
+        tests:
+          - not_null
