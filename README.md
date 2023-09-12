@@ -8,8 +8,8 @@ Hello! I'm Cuong, and this is my project to show my data warehouse skills.
 - Implementing data quality checks using [DBT test](https://docs.getdbt.com/docs/build/tests)
 
 ## 📃 How to check this project
-You can find data models at models/analytics.
-You can find data quality tests at models/analytics/testss.
+- You can find data models at [models/analytics](https://github.com/LuongQuocCuong/project-demo/tree/main/models).
+- You can find data quality tests at models/analytics/testss.
 
 ### Resources:
 - Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
