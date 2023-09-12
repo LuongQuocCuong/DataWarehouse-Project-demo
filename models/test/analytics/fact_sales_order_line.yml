@@ -1,0 +1,96 @@
+version: 2
+
+models:                  
+  - name: fact_sale_order_line
+    tests:
+      - dbt_utils.equal_rowcount:
+          compare_model: "`vit-lam-data.wide_world_importers.sales__order_lines`"
+
+    columns:
+      - name: order_line_id
+        tests:
+          - not_null
+          - unique
+
+      - name: order_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_fact_sale_order')
+              field: order_id
+
+      - name: product_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_product')
+              field: product_id
+
+      - name: package_type_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_dim_package_type')
+              field: package_type_id
+
+      - name: customer_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customer')
+              field: customer_id
+
+      - name: picked_by_person_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_picked_by_person')
+              field: picked_by_person_person_id
+
+      - name: sales_person_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_salesperson_person')
+              field: salesperson_person_id
+
+      - name: contact_person_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_person')
+              field: person_id
+          
+      - name: order_date
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: "'2013-01-01'"
+              max_value: "CURRENT_DATE"
+
+      - name: expected_delivery_date
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: "'2013-01-01'"
+              max_value: "CURRENT_DATE"
+
+      - name: gross_amount
+        tests:
+        - not_null
+        - dbt_utils.expression_is_true:
+           expression: "= quantity * unit_price"
+
+      - name: quantity
+        tests:
+          - not_null
+
+      - name: sales_order_line_indicator_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_sales_order_line_indicator')
+              field: sales_order_line_indicator_id
+
+
+
