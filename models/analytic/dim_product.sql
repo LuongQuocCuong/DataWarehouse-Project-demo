@@ -132,6 +132,7 @@ SELECT
   , dim_product.quantity_per_outer 
   , dim_product.is_chiller_stock
   , COALESCE (external_product.category_id , -1) AS category_id
+  , COALESCE(external_category.category_name, 'Undefined') AS category_name
   , dim_product.tax_rate 
   , dim_product.unit_price 
   , dim_product.recommended_retail_price 
@@ -162,3 +163,5 @@ LEFT JOIN {{ref('stg_dim_package_type')}} AS stg_unit_package_type
   ON stg_unit_package_type.package_type_id = dim_product.unit_package_id
 LEFT JOIN {{ref('stg_dim_external_product')}} AS external_product
   USING (product_id)
+LEFT JOIN {{ref('stg_dim_external_categories')}} AS external_category
+    USING (category_id)
