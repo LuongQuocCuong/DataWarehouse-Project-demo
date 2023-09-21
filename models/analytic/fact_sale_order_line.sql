@@ -70,7 +70,7 @@ SELECT
 FROM fact_sale__undefined_handle AS fact_line
 LEFT JOIN {{ref('stg_fact_sale_order')}} AS stg_sale_order
   ON fact_line.order_id = stg_sale_order.order_id
-LEFT JOIN {{ref('stg_dim_customer_relationship')}} AS customer_relationship
+LEFT JOIN {{ref('dim_customer_relationship')}} AS customer_relationship
     ON stg_sale_order.customer_id = customer_relationship.customer_id
     AND stg_sale_order.order_date BETWEEN customer_relationship.begin_effective_date
                                 AND customer_relationship.end_effective_date
