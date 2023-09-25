@@ -51,17 +51,23 @@ WHERE order_id in (SELECT order_id FROM association_rule__fillter_order_id)
   )
 
   select 
-	left_product_id
-	, right_product_id
-	, num_combo_order
-	, num_left_product
-	, num_right_product
-	, num_total_order
-	, round((num_combo_order/ num_total_order) , 4) as support 
-	, round((num_combo_order / num_left_product) ,2) as confidence
-	, round((num_combo_order/num_left_product)/(num_right_product/num_total_order),2) as lift
-from association_rule__num_left_and_right_product
-order by 3 desc
+	main.left_product_id
+    , left_product.product_name as product_name_left 
+	, main.right_product_id
+    , right_product.product_name as product_name_right
+	, main.num_combo_order
+	, main.num_left_product
+	, main.num_right_product
+	, main.num_total_order
+	, round((main.num_combo_order/ main.num_total_order) , 4) as support 
+	, round((main.num_combo_order / main.num_left_product) ,2) as confidence
+	, round((main.num_combo_order/main.num_left_product)/(main.num_right_product/main.num_total_order),2) as lift
+from association_rule__num_left_and_right_product as main
+left join {{ref('dim_product')}} as left_product
+    ON left_product.product_id = main.left_product_id
+left join {{ref('dim_product')}} as right_product
+    ON right_product.product_id = main.right_product_id
+
 
 
 
